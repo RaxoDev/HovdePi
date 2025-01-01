@@ -1,5 +1,5 @@
 #include <iostream>
-#include "midifile/MidiFile.h" // Include the MidiFile library
+#include "MidiFile.h" // Include the MidiFile library
 
 using namespace smf;
 
