@@ -5,6 +5,7 @@
 
 class Key {
 public:
+    Key();
     Key(int midiNote, float x, float y, float width, float height, sf::Color color);
     void Update();
     void Draw(sf::RenderWindow &window) const;
