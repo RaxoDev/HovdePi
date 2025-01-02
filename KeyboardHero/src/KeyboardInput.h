@@ -2,7 +2,9 @@
 #define KEYBOARDINPUT_H
 
 #include <vector>
-#include <RtMidi.h>
+#include "RtMidi.h"
+
+// g++ -Wall -D__LINUX_ALSA__ -o gmidi gmidi.cpp RtMidi.cpp -lasound -lpthread
 
 class KeyboardInput {
 public:
