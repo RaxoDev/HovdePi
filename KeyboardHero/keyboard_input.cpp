@@ -53,5 +53,7 @@ void KeyboardInput::midiCallback(double deltaTime, std::vector<unsigned char> *m
             keyboard->lastNote = -1;
             keyboard->velocity = 0;
         }
+
+        std::cout << "Note: " << keyboard->lastNote << ", Velocity: " << keyboard->velocity << std::endl;
     }
 }
