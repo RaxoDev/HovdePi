@@ -24,7 +24,7 @@ Keyboard::Keyboard(float width)
     const float blackKeyWidth = whiteKeyWidth * 0.6f;
 
     for (int i = 0; i < whiteKeyCount; i++) {
-        whiteKeys.insert({i, Key(i, x, y, whiteKeyWidth, height, sf::Color::White)});
+        whiteKeys.emplace(i, Key(i, x, y, whiteKeyWidth, height, sf::Color::White));
         x += whiteKeyWidth;
     }
 
@@ -35,7 +35,7 @@ Keyboard::Keyboard(float width)
     const float blackKeyHeight = height * 0.6f;
     for (int i = startKey; i < startKey + keyCount; i++) {
         if (isBlackKey(i)) {
-            blackKeys.insert({i, Key(i, x, y, blackKeyWidth, blackKeyHeight, sf::Color::Black)});
+            blackKeys.emplace(i, Key(i, x, y, blackKeyWidth, blackKeyHeight, sf::Color::Black));
         } else {
             x += whiteKeyWidth;
         }
