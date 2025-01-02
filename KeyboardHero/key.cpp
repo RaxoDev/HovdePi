@@ -4,15 +4,18 @@ Key::Key(int midiNote, float x, float y, float width, float height, sf::Color co
     : midiNote(midiNote), x(x), y(y), width(width), height(height), color(color) {}
 
 void Key::Update() {
-    // Logic for updating the key can go here (e.g., MIDI changes)
+    // Logic for updating the key can go here
 }
 
 void Key::Draw(sf::RenderWindow &window) const {
     sf::RectangleShape rectangle(sf::Vector2f(width, height));
     rectangle.setPosition(x, y);
     rectangle.setFillColor(color);
-    rectangle.setOutlineColor(sf::Color::Black); // Outline for clarity
+    rectangle.setOutlineColor(sf::Color::Black);
     rectangle.setOutlineThickness(1.0f);
-
     window.draw(rectangle);
+}
+
+void Key::SetColor(const sf::Color &newColor) {
+    color = newColor;
 }

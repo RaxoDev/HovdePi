@@ -42,27 +42,22 @@ Keyboard::Keyboard(float width)
     }
 }
 
-void Keyboard::Update(const KeyboardInput& keyboardInput) {
-    // Get the last note pressed
-    int lastNote = keyboardInput.getLastNote();
-
-    // Change key colors based on the MIDI input
-    for (auto& pair : whiteKeys) {
-        if (pair.first == lastNote) {
-            pair.second.SetColor(sf::Color::Red);
-        } else {
-            pair.second.SetColor(sf::Color::White);
+void Keyboard::Update(int midiNote, bool isPressed) {
+    if (isPressed) {
+        if (whiteKeys.count(midiNote)) {
+            whiteKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed white key
+        } else if (blackKeys.count(midiNote)) {
+            blackKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed black key
         }
-    }
-
-    for (auto& pair : blackKeys) {
-        if (pair.first == lastNote) {
-            pair.second.SetColor(sf::Color::Red);
-        } else {
-            pair.second.SetColor(sf::Color::Black);
+    } else {
+        if (whiteKeys.count(midiNote)) {
+            whiteKeys[midiNote].SetColor(sf::Color::White); // Reset to default
+        } else if (blackKeys.count(midiNote)) {
+            blackKeys[midiNote].SetColor(sf::Color::Black); // Reset to default
         }
     }
 }
+
 
 void Keyboard::Draw(sf::RenderWindow& window) const {
     // Draw white keys

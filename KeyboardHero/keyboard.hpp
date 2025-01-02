@@ -9,7 +9,7 @@
 class Keyboard {
 public:
     Keyboard(float width);  // Initialize the keyboard
-    void Update(const KeyboardInput& keyboardInput);  // Update based on MIDI input
+    void Update(int midiNote, bool isPressed);  // Update based on MIDI input
     void Draw(sf::RenderWindow& window) const;  // Draw the keyboard
 
 private:
