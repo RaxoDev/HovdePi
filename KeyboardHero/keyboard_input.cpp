@@ -1,4 +1,4 @@
-#include "KeyboardInput.h"
+#include "keyboard_input.hpp"
 #include <iostream>
 
 KeyboardInput::KeyboardInput() : midiIn(nullptr), lastNote(-1), velocity(0) {}
@@ -18,12 +18,11 @@ bool KeyboardInput::init() {
             return false;
         }
 
-        // Open the first MIDI input device
         midiIn->openPort(0);
         midiIn->setCallback(&KeyboardInput::midiCallback, this);
-        midiIn->ignoreTypes(false, false, false); // Don't ignore any message types
+        midiIn->ignoreTypes(false, false, false);
 
-        std::cout << "MIDI Input initialized. Listening for keyboard input..." << std::endl;
+        std::cout << "MIDI Input initialized." << std::endl;
         return true;
     } catch (RtMidiError &error) {
         std::cerr << "RtMidiError: " << error.getMessage() << std::endl;
@@ -50,11 +49,9 @@ void KeyboardInput::midiCallback(double deltaTime, std::vector<unsigned char> *m
         if ((status & 0xF0) == 0x90 && vel > 0) { // Note On
             keyboard->lastNote = note;
             keyboard->velocity = vel;
-            std::cout << "Note On: " << note << " Velocity: " << vel << std::endl;
         } else if ((status & 0xF0) == 0x80 || ((status & 0xF0) == 0x90 && vel == 0)) { // Note Off
-            keyboard->lastNote = -1; // Reset the note
+            keyboard->lastNote = -1;
             keyboard->velocity = 0;
-            std::cout << "Note Off: " << note << std::endl;
         }
     }
 }

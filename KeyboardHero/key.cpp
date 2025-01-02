@@ -1,5 +1,5 @@
 #include "key.h"
-#include <raylib.h>
+
 
 Key::Key(int midiNote, float x, float y, float width, float height, Color color) 
     :midiNote(midiNote), x(x), y(y), width(width), height(height), color(color)
