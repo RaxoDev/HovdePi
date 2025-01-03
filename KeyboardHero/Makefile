@@ -1,9 +1,9 @@
 # Compiler and flags
 CXX = g++
-CXXFLAGS = -I/usr/include/rtmidi -std=c++17 -Wall -Wextra
+CXXFLAGS = -I/usr/include/SDL2 -std=c++17 -Wall -Wextra
 
 # Libraries
-LIBS = -lsfml-graphics -lsfml-window -lsfml-system -lrtmidi
+LIBS = -lSDL2 -lSDL2_image -lSDL2_ttf -lSDL2_mixer -lrtmidi
 
 # Target executable
 TARGET = KeyboardHero

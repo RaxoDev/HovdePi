@@ -10,7 +10,7 @@ void Key::Update() {
     // Logic for updating the key can go here
 }
 
-void Draw(SDL_Renderer* renderer) const {
+void Key::Draw(SDL_Renderer* renderer) const {
     // Set fill color
     SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 
