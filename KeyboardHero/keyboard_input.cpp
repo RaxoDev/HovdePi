@@ -1,7 +1,7 @@
 #include "keyboard_input.hpp"
 #include <iostream>
 
-KeyboardInput::KeyboardInput() : midiIn(nullptr), lastNote(-1), velocity(0) {}
+KeyboardInput::KeyboardInput() : midiIn(nullptr) {}
 
 KeyboardInput::~KeyboardInput() {
     if (midiIn) {
@@ -18,42 +18,55 @@ bool KeyboardInput::init() {
             return false;
         }
 
+        // Open the first MIDI input device
         midiIn->openPort(0);
         midiIn->setCallback(&KeyboardInput::midiCallback, this);
-        midiIn->ignoreTypes(false, false, false);
+        midiIn->ignoreTypes(false, false, false); // Don't ignore any message types
 
-        std::cout << "MIDI Input initialized." << std::endl;
+        std::cout << "MIDI Input initialized. Listening for keyboard input..." << std::endl;
         return true;
-    } catch (RtMidiError &error) {
+    } catch (RtMidiError& error) {
         std::cerr << "RtMidiError: " << error.getMessage() << std::endl;
         return false;
     }
 }
 
-int KeyboardInput::getLastNote() const {
-    return lastNote;
-}
-
-int KeyboardInput::getVelocity() const {
-    return velocity;
-}
-
-void KeyboardInput::midiCallback(double deltaTime, std::vector<unsigned char> *message, void *userData) {
-    auto *keyboard = static_cast<KeyboardInput *>(userData);
+void KeyboardInput::midiCallback(double deltaTime, std::vector<unsigned char>* message, void* userData) {
+    auto* keyboard = static_cast<KeyboardInput*>(userData);
 
     if (message->size() >= 3) {
         int status = message->at(0);
         int note = message->at(1);
-        int vel = message->at(2);
+        int velocity = message->at(2);
 
-        if ((status & 0xF0) == 0x90 && vel > 0) { // Note On
-            keyboard->lastNote = note;
-            keyboard->velocity = vel;
-        } else if ((status & 0xF0) == 0x80 || ((status & 0xF0) == 0x90 && vel == 0)) { // Note Off
-            keyboard->lastNote = -1;
-            keyboard->velocity = 0;
+        // Check for Note On or Note Off
+        if ((status & 0xF0) == 0x90 && velocity > 0) {  // Note On
+            MidiEvent event(MidiEventType::NOTE_ON, note, velocity);
+            keyboard->eventQueue.push(event);
+            std::cout << "Note On: " << note << " Velocity: " << velocity << std::endl;
+        } else if ((status & 0xF0) == 0x80 || ((status & 0xF0) == 0x90 && velocity == 0)) {  // Note Off
+            MidiEvent event(MidiEventType::NOTE_OFF, note, velocity);
+            keyboard->eventQueue.push(event);
+            std::cout << "Note Off: " << note << std::endl;
         }
 
-        std::cout << "Note: " << keyboard->lastNote << ", Velocity: " << keyboard->velocity << std::endl;
+        // Check for Control Change (Pedal events)
+        else if ((status & 0xF0) == 0xB0) {  // Control Change message
+            int controlNumber = message->at(1);
+            int controlValue = message->at(2);
+
+            // Sustain pedal (RIGHT) (CC 64)
+            if (controlNumber == 64) {
+                std::cout << "Sustain (RIGHT) Pedal: " << controlValue << std::endl;
+            }
+            // Soft Pedal (LEFT) (CC 67)
+            else if (controlNumber == 67) {
+                std::cout << "Soft (LEFT) Pedal: " << controlValue << std::endl;
+            }
+            // Sostenuto Pedal (MIDDLE) (CC 67)
+            else if (controlNumber == 66) {
+                std::cout << "Sostenuto (MIDDLE) Pedal: " << controlValue << std::endl;
+            }
+        }
     }
 }
