@@ -9,8 +9,8 @@
 
 int main() {
     // Initialize your SFML window and other resources
-    int width = 1920;
-    int height = 1080;
+    int width = 800;
+    int height = 600;
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Keyboard Hero");
 
