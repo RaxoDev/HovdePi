@@ -28,9 +28,8 @@ int main() {
         }
 
         // Process events from the queue
-        while (!eventQueue.empty()) {
-            MidiEvent midiEvent = eventQueue.front();
-            eventQueue.pop();
+        while (keyboardInput.hasEvents()) {
+            MidiEvent midiEvent = keyboardInput.popEvent();
 
             if (midiEvent.type == MidiType::NoteOn) {
                 std::cout << "Note On: " << midiEvent.note << std::endl;

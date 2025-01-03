@@ -70,3 +70,19 @@ void KeyboardInput::midiCallback(double deltaTime, std::vector<unsigned char>* m
         }
     }
 }
+
+MidiEvent KeyboardInput::popEvent() {
+    if (!eventQueue.empty()) {
+        MidiEvent event = eventQueue.front();
+        eventQueue.pop();
+        return event;
+    } else {
+        // Return null if the queue is empty
+        return NULL;
+    }
+}
+
+bool KeyboardInput::hasEvents() const {
+    return !eventQueue.empty();  // Return true if there are events in the queue
+}
+

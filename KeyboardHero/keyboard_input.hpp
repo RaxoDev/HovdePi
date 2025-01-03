@@ -16,6 +16,9 @@ public:
 
     static void midiCallback(double deltaTime, std::vector<unsigned char> *message, void *userData);
 
+    MidiEvent popEvent();
+    bool hasEvents() const;
+
 private:
     RtMidiIn *midiIn;
     std::queue<MidiEvent> eventQueue;  // A queue to hold MIDI events
