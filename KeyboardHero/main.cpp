@@ -9,8 +9,8 @@
 
 int main() {
     // Initialize your SFML window and other resources
-    int width = 800;
-    int height = 600;
+    int width = 1920;
+    int height = 1080;
 
     sf::RenderWindow window(sf::VideoMode(width, height), "Keyboard Hero");
 
@@ -21,7 +21,7 @@ int main() {
         return -1;
     }
 
-    Keyboard keyboard((float)width);  // Create a keyboard with a certain width
+    Keyboard keyboard((float)width, (float)height);  // Create a keyboard with a certain width
 
     while (window.isOpen()) {
         sf::Event event;
