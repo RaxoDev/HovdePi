@@ -12,6 +12,7 @@ int main() {
     int width = 1920;
     int height = 1080;
 
+
     sf::RenderWindow window(sf::VideoMode(width, height), "Keyboard Hero");
 
     // Initialize the keyboard input
