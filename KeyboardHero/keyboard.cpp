@@ -19,7 +19,7 @@ Keyboard::Keyboard(float width)
     // Create white keys
     whiteKeys.clear();
     float x = 0;
-    float y = 1080 - height;
+    float y = 600 - height;
     const float whiteKeyWidth = width / whiteKeyCount;
     const float blackKeyWidth = whiteKeyWidth * 0.6f;
 

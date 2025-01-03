@@ -21,7 +21,7 @@ int main() {
         return -1;
     }
 
-    Keyboard keyboard(width);  // Create a keyboard with a certain width
+    Keyboard keyboard((float)width);  // Create a keyboard with a certain width
 
     while (window.isOpen()) {
         sf::Event event;
