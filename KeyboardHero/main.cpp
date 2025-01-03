@@ -8,7 +8,7 @@
 #include <iostream>
 
 const int SCREEN_WIDTH = 1920;
-const int SCREEN_HEIGHT = 1080;
+const int SCREEN_HEIGHT = 1015; // not exact
 const int FRAME_DELAY = 16; // ~60 FPS (1000ms / 60 = ~16ms)
 
 int main() {
