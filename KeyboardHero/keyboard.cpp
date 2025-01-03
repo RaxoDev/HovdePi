@@ -23,9 +23,11 @@ Keyboard::Keyboard(float width)
     const float whiteKeyWidth = width / whiteKeyCount;
     const float blackKeyWidth = whiteKeyWidth * 0.6f;
 
-    for (int i = 0; i < whiteKeyCount; i++) {
-        whiteKeys.emplace(i, Key(i, x, y, whiteKeyWidth, height, sf::Color::White));
-        x += whiteKeyWidth;
+    for (int i = startKey; i < startKey + keyCount; i++) {
+        if (!isBlackKey(i)) {
+            whiteKeys.emplace(i, Key(i, x, y, whiteKeyWidth, height, sf::Color::White));
+            x += whiteKeyWidth;
+        }
     }
 
     // Create black keys
