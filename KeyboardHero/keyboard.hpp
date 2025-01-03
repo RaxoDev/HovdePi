@@ -10,7 +10,7 @@ class Keyboard {
 public:
     Keyboard(float screenWidth, float screenHeight);  // Initialize the keyboard
     void Update(const MidiEvent& midiEvent);  // Update based on MIDI input
-    void Draw(sf::RenderWindow& window) const;  // Draw the keyboard
+    void Draw(SDL_Renderer* renderer) const;  // Draw the keyboard
 
 private:
     bool isBlackKey(int key) const;  // Check if the key is black
