@@ -2,6 +2,7 @@
 #define KEYBOARD_INPUT_HPP
 
 #include <RtMidi.h>
+#include "midi_event.hpp"
 #include <queue>
 #include <vector>
 
