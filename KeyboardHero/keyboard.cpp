@@ -42,14 +42,17 @@ Keyboard::Keyboard(float width)
     }
 }
 
-void Keyboard::Update(int midiNote, bool isPressed) {
-    if (isPressed) {
+void Keyboard::Update(const MidiEvent& midiEvent) {
+    // Example implementation of how to handle the MidiEvent
+    if (midiEvent.getType() == MidiEventType::NOTE_ON) {
+        int midiNote = midiEvent.getNote();
         if (whiteKeys.count(midiNote)) {
             whiteKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed white key
         } else if (blackKeys.count(midiNote)) {
             blackKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed black key
         }
-    } else {
+    } else if (midiEvent.getType() == MidiEventType::NOTE_OFF) {
+        int midiNote = midiEvent.getNote();
         if (whiteKeys.count(midiNote)) {
             whiteKeys[midiNote].SetColor(sf::Color::White); // Reset to default
         } else if (blackKeys.count(midiNote)) {

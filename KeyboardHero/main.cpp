@@ -31,21 +31,21 @@ int main() {
         while (keyboardInput.hasEvents()) {
             MidiEvent midiEvent = keyboardInput.popEvent();
 
-            if (midiEvent.type == MidiType::NoteOn) {
+            if (midiEvent.getType() == MidiType::NoteOn) {
                 std::cout << "Note On: " << midiEvent.note << std::endl;
                 // You can add logic here to change the color or state of keys based on midiEvent.note
                 // For example, you could change a key's color when it is pressed
-            } else if (midiEvent.type == MidiType::NoteOff) {
+            } else if (midiEvent.getType() == MidiType::NoteOff) {
                 std::cout << "Note Off: " << midiEvent.note << std::endl;
                 // Handle note-off logic, e.g., reset the key color
             }
+            keyboard.Update(midiEvent);
         }
 
         // Clear the window
         window.clear();
 
         // Update and draw the keyboard
-        keyboard.Update();
         keyboard.Draw(window);
 
         // Display the window
