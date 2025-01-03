@@ -19,7 +19,7 @@ bool KeyboardInput::init() {
         }
 
         // Open the first MIDI input device
-        midiIn->openPort(0);
+        midiIn->openPort(1);
         midiIn->setCallback(&KeyboardInput::midiCallback, this);
         midiIn->ignoreTypes(false, false, false); // Don't ignore any message types
 
