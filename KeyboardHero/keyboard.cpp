@@ -46,18 +46,22 @@ void Keyboard::Update(const MidiEvent& midiEvent) {
     int midiNote = midiEvent.getMidiNote();
 
     if (midiEvent.getType() == MidiEventType::NOTE_ON) {
-        if (whiteKeys.count(midiNote)) {
-            whiteKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed white key
-        } else if (blackKeys.count(midiNote)) {
-            blackKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed black key
+        if (isBlackKey(midiNote)) {
+            if (blackKeys.count(midiNote))
+                blackKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed black key
+        } else {
+            if (whiteKeys.count(midiNote))
+                whiteKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed white key
         }
     }
     
     else if (midiEvent.getType() == MidiEventType::NOTE_OFF) {
-        if (whiteKeys.count(midiNote)) {
-            whiteKeys[midiNote].SetColor(sf::Color::White); // Reset to default
-        } else if (blackKeys.count(midiNote)) {
-            blackKeys[midiNote].SetColor(sf::Color::Black); // Reset to default
+        if (isBlackKey(midiNote)) {
+            if (blackKeys.count(midiNote))
+                blackKeys[midiNote].SetColor(sf::Color::Black); // Reset to default
+        } else {
+            if (whiteKeys.count(midiNote))
+                whiteKeys[midiNote].SetColor(sf::Color::White); // Reset to default
         }
     }
 }

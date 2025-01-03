@@ -18,7 +18,7 @@ bool KeyboardInput::init() {
             return false;
         }
 
-        // Open the first MIDI input device
+        // Open MIDI input device
         midiIn->openPort(1);
         midiIn->setCallback(&KeyboardInput::midiCallback, this);
         midiIn->ignoreTypes(false, false, false); // Don't ignore any message types
@@ -43,11 +43,11 @@ void KeyboardInput::midiCallback(double deltaTime, std::vector<unsigned char>* m
         if ((status & 0xF0) == 0x90 && velocity > 0) {  // Note On
             MidiEvent event(MidiEventType::NOTE_ON, note, velocity);
             keyboard->eventQueue.push(event);
-            std::cout << "Note On: " << note << " Velocity: " << velocity << std::endl;
+            //std::cout << "Note On: " << note << " Velocity: " << velocity << std::endl;
         } else if ((status & 0xF0) == 0x80 || ((status & 0xF0) == 0x90 && velocity == 0)) {  // Note Off
             MidiEvent event(MidiEventType::NOTE_OFF, note, velocity);
             keyboard->eventQueue.push(event);
-            std::cout << "Note Off: " << note << std::endl;
+            //std::cout << "Note Off: " << note << std::endl;
         }
 
         // Check for Control Change (Pedal events)
