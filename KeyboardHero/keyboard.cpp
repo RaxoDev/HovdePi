@@ -5,7 +5,7 @@ inline bool Keyboard::isBlackKey(int key) const {
     return key % 12 == 1 || key % 12 == 3 || key % 12 == 6 || key % 12 == 8 || key % 12 == 10;
 }
 
-Keyboard::Keyboard(float sceenWidth, float screenHeight)
+Keyboard::Keyboard(float screenWidth, float screenHeight)
     : width(screenWidth), height(width / 8), startKey(21), keyCount(88) {
     
     // Calculate the number of white keys
