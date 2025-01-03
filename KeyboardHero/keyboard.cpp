@@ -43,16 +43,17 @@ Keyboard::Keyboard(float width)
 }
 
 void Keyboard::Update(const MidiEvent& midiEvent) {
-    // Example implementation of how to handle the MidiEvent
+    int midiNote = midiEvent.getMidiNote();
+
     if (midiEvent.getType() == MidiEventType::NOTE_ON) {
-        int midiNote = midiEvent.getNote();
         if (whiteKeys.count(midiNote)) {
             whiteKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed white key
         } else if (blackKeys.count(midiNote)) {
             blackKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed black key
         }
-    } else if (midiEvent.getType() == MidiEventType::NOTE_OFF) {
-        int midiNote = midiEvent.getNote();
+    }
+    
+    else if (midiEvent.getType() == MidiEventType::NOTE_OFF) {
         if (whiteKeys.count(midiNote)) {
             whiteKeys[midiNote].SetColor(sf::Color::White); // Reset to default
         } else if (blackKeys.count(midiNote)) {
