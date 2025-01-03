@@ -1,39 +1,55 @@
+// main.cpp
 #include <SFML/Graphics.hpp>
-#include "keyboard.hpp"
 #include "keyboard_input.hpp"
+#include "midi_event.hpp"
+#include "key.hpp"
+#include "keyboard.hpp"
+#include <queue>
+#include <iostream>
 
 int main() {
-    sf::RenderWindow window(sf::VideoMode(800, 600), "SFML Piano");
-    Keyboard keyboard(800.0f);
-    KeyboardInput midiInput;
+    // Initialize your SFML window and other resources
+    sf::RenderWindow window(sf::VideoMode(800, 600), "Keyboard Hero");
 
-    if (!midiInput.init()) {
-        return -1; // Exit if MIDI initialization fails
+    // Initialize the keyboard input
+    KeyboardInput keyboardInput;
+    if (!keyboardInput.init()) {
+        std::cerr << "Failed to initialize MIDI input" << std::endl;
+        return -1;
     }
+
+    Keyboard keyboard(800);  // Create a keyboard with a certain width
 
     while (window.isOpen()) {
         sf::Event event;
         while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed)
                 window.close();
+        }
+
+        // Process events from the queue
+        while (!eventQueue.empty()) {
+            MidiEvent midiEvent = eventQueue.front();
+            eventQueue.pop();
+
+            if (midiEvent.type == MidiType::NoteOn) {
+                std::cout << "Note On: " << midiEvent.note << std::endl;
+                // You can add logic here to change the color or state of keys based on midiEvent.note
+                // For example, you could change a key's color when it is pressed
+            } else if (midiEvent.type == MidiType::NoteOff) {
+                std::cout << "Note Off: " << midiEvent.note << std::endl;
+                // Handle note-off logic, e.g., reset the key color
             }
         }
 
-        // Check for MIDI input
-        int lastNote = midiInput.getLastNote();
-        int velocity = midiInput.getVelocity();
+        // Clear the window
+        window.clear();
 
-        if (lastNote != -1 && velocity > 0) {
-            keyboard.Update(lastNote, true); // Highlight the pressed key
-        } else if (lastNote != -1 && velocity == 0) {
-            keyboard.Update(lastNote, false); // Reset the released key
-        }
-
-        window.clear(sf::Color::Black);
-
-        // Draw the keyboard
+        // Update and draw the keyboard
+        keyboard.Update();
         keyboard.Draw(window);
 
+        // Display the window
         window.display();
     }
 
