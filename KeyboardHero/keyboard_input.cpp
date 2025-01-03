@@ -78,7 +78,7 @@ MidiEvent KeyboardInput::popEvent() {
         return event;
     } else {
         // Return null if the queue is empty
-        return NULL;
+        return MidiEvent(MidiEventType::NOTE_OFF, -1, -1);
     }
 }
 
