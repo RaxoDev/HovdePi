@@ -1,20 +1,20 @@
 #ifndef KEY_HPP
 #define KEY_HPP
 
-#include <SFML/Graphics.hpp>
+#include <SDL2/SDL.h>
 
 class Key {
 public:
     Key();
-    Key(int midiNote, float x, float y, float width, float height, sf::Color color);
+    Key(int midiNote, float x, float y, float width, float height, SDL_Color color);
     void Update();
-    void Draw(sf::RenderWindow &window) const;
-    void SetColor(const sf::Color &newColor); // Add this method
+    void Draw(SDL_Renderer* renderer) const;
+    void SetColor(const SDL_Color &newColor); // Add this method
 
 private:
     int midiNote;
     float x, y, width, height;
-    sf::Color color;
+    SDL_Color color;
 };
 
 #endif // KEY_HPP

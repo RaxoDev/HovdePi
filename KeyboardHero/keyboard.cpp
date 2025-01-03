@@ -25,7 +25,7 @@ Keyboard::Keyboard(float screenWidth, float screenHeight)
 
     for (int i = startKey; i < startKey + keyCount; i++) {
         if (!isBlackKey(i)) {
-            whiteKeys.emplace(i, Key(i, x, y, whiteKeyWidth, height, sf::Color::White));
+            whiteKeys.emplace(i, Key(i, x, y, whiteKeyWidth, height, {255, 255, 255, 255}));
             x += whiteKeyWidth;
         }
     }
@@ -37,7 +37,7 @@ Keyboard::Keyboard(float screenWidth, float screenHeight)
     const float blackKeyHeight = height * 0.6f;
     for (int i = startKey; i < startKey + keyCount; i++) {
         if (isBlackKey(i)) {
-            blackKeys.emplace(i, Key(i, x, y, blackKeyWidth, blackKeyHeight, sf::Color::Black));
+            blackKeys.emplace(i, Key(i, x, y, blackKeyWidth, blackKeyHeight, {0, 0, 0, 255}));
         } else {
             x += whiteKeyWidth;
         }
@@ -50,33 +50,33 @@ void Keyboard::Update(const MidiEvent& midiEvent) {
     if (midiEvent.getType() == MidiEventType::NOTE_ON) {
         if (isBlackKey(midiNote)) {
             if (blackKeys.count(midiNote))
-                blackKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed black key
+                blackKeys[midiNote].SetColor({255, 0, 0, 255}); // Highlight pressed black key
         } else {
             if (whiteKeys.count(midiNote))
-                whiteKeys[midiNote].SetColor(sf::Color::Red); // Highlight pressed white key
+                whiteKeys[midiNote].SetColor({255, 0, 0, 255}); // Highlight pressed white key
         }
     }
     
     else if (midiEvent.getType() == MidiEventType::NOTE_OFF) {
         if (isBlackKey(midiNote)) {
             if (blackKeys.count(midiNote))
-                blackKeys[midiNote].SetColor(sf::Color::Black); // Reset to default
+                blackKeys[midiNote].SetColor({0, 0, 0, 255}); // Reset to default
         } else {
             if (whiteKeys.count(midiNote))
-                whiteKeys[midiNote].SetColor(sf::Color::White); // Reset to default
+                whiteKeys[midiNote].SetColor({255, 255, 255, 255}); // Reset to default
         }
     }
 }
 
 
-void Keyboard::Draw(sf::RenderWindow& window) const {
+void Keyboard::Draw(SDL_Renderer* renderer) const {
     // Draw white keys
     for (const auto& pair : whiteKeys) {
-        pair.second.Draw(window);
+        pair.second.Draw(renderer);
     }
 
     // Draw black keys
     for (const auto& pair : blackKeys) {
-        pair.second.Draw(window);
+        pair.second.Draw(renderer);
     }
 }

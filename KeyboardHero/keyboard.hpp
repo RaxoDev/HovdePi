@@ -1,7 +1,7 @@
 #ifndef KEYBOARD_HPP
 #define KEYBOARD_HPP
 
-#include <SFML/Graphics.hpp>
+#include <SDL2/SDL.h>
 #include <unordered_map>
 #include "key.hpp"
 #include "keyboard_input.hpp"

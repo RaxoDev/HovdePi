@@ -1,5 +1,5 @@
 // main.cpp
-#include <SFML/Graphics.hpp>
+#include <SDL2/SDL.h>
 #include "keyboard_input.hpp"
 #include "midi_event.hpp"
 #include "key.hpp"
@@ -7,13 +7,39 @@
 #include <queue>
 #include <iostream>
 
+const int SCREEN_WIDTH = 640;
+const int SCREEN_HEIGHT = 480;
+const int FRAME_DELAY = 16; // ~60 FPS (1000ms / 60 = ~16ms)
+
 int main() {
-    // Initialize your SFML window and other resources
-    int width = 1920;
-    int height = 1080;
+    if (SDL_Init(SDL_INIT_VIDEO) != 0) {
+        std::cerr << "SDL_Init Error: " << SDL_GetError() << std::endl;
+        return 1;
+    }
 
+    SDL_Window* window = SDL_CreateWindow("Keyboard Hero",
+                                          SDL_WINDOWPOS_CENTERED,
+                                          SDL_WINDOWPOS_CENTERED,
+                                          SCREEN_WIDTH,
+                                          SCREEN_HEIGHT,
+                                          SDL_WINDOW_SHOWN);
+    if (!window) {
+        std::cerr << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
+        SDL_Quit();
+        return 1;
+    }
 
-    sf::RenderWindow window(sf::VideoMode(width, height), "Keyboard Hero");
+    SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
+    if (!renderer) {
+        std::cerr << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
+        SDL_DestroyWindow(window);
+        SDL_Quit();
+        return 1;
+    }
+
+    // Game loop variables
+    bool isRunning = true;
+    SDL_Event event;
 
     // Initialize the keyboard input
     KeyboardInput keyboardInput;
@@ -22,15 +48,23 @@ int main() {
         return -1;
     }
 
-    Keyboard keyboard((float)width, (float)height);  // Create a keyboard with a certain width
+    Keyboard keyboard((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);  // Create a keyboard with a screen width and height
 
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
+
+    // Game loop
+    while (isRunning) {
+        Uint32 frameStart = SDL_GetTicks(); // Record when the frame started
+
+        // 1. Handle Events
+        while (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) {
+                isRunning = false; // Exit the game
+            }
         }
 
+        // 2. Update Game Logic
+        // (Put your game logic here: move objects, check collisions, etc.)
+        // For example: moving a rectangle
         // Process events from the queue
         while (keyboardInput.hasEvents()) {
             MidiEvent midiEvent = keyboardInput.popEvent();
@@ -44,15 +78,31 @@ int main() {
             keyboard.Update(midiEvent);
         }
 
-        // Clear the window
-        window.clear();
+        // 3. Render
+        SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255); // Clear to black
+        SDL_RenderClear(renderer);
 
-        // Update and draw the keyboard
-        keyboard.Draw(window);
+        // Example: Draw a red rectangle
+        SDL_Rect rect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
+        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
+        SDL_RenderFillRect(renderer, &rect);
 
-        // Display the window
-        window.display();
+        SDL_RenderPresent(renderer); // Show the rendered frame
+
+        
+        keyboard.Draw(renderer);
+
+        // 4. Control Frame Rate
+        Uint32 frameTime = SDL_GetTicks() - frameStart; // Calculate how long the frame took
+        if (FRAME_DELAY > frameTime) {
+            SDL_Delay(FRAME_DELAY - frameTime); // Delay to maintain consistent frame rate
+        }
     }
+
+    // Cleanup
+    SDL_DestroyRenderer(renderer);
+    SDL_DestroyWindow(window);
+    SDL_Quit();
 
     return 0;
 }
