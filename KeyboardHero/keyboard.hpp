@@ -8,7 +8,7 @@
 
 class Keyboard {
 public:
-    Keyboard(float screenWidth, float screenHeight);  // Initialize the keyboard
+    Keyboard(int screenWidth, int screenHeight);  // Initialize the keyboard
     void Update(const MidiEvent& midiEvent);  // Update based on MIDI input
     void Draw(SDL_Renderer* renderer) const;  // Draw the keyboard
 

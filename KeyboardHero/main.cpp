@@ -48,7 +48,7 @@ int main() {
         return -1;
     }
 
-    Keyboard keyboard((float)SCREEN_WIDTH, (float)SCREEN_HEIGHT);  // Create a keyboard with a screen width and height
+    Keyboard keyboard(SCREEN_WIDTH, SCREEN_HEIGHT);  // Create a keyboard with a screen width and height
 
 
     // Game loop
@@ -83,14 +83,14 @@ int main() {
         SDL_RenderClear(renderer);
 
         // Example: Draw a red rectangle
-        SDL_Rect rect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
-        SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
-        SDL_RenderFillRect(renderer, &rect);
+        //SDL_Rect rect = {SCREEN_WIDTH / 4, SCREEN_HEIGHT / 4, SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2};
+        //SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255); // Red color
+        //SDL_RenderFillRect(renderer, &rect);
 
-        SDL_RenderPresent(renderer); // Show the rendered frame
 
-        
         keyboard.Draw(renderer);
+        
+        SDL_RenderPresent(renderer); // Show the rendered frame
 
         // 4. Control Frame Rate
         Uint32 frameTime = SDL_GetTicks() - frameStart; // Calculate how long the frame took

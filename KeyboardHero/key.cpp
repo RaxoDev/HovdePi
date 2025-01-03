@@ -3,7 +3,7 @@
 Key::Key()
     : midiNote(-1), x(0), y(0), width(0), height(0), color({255, 255, 255, 255}) {}
 
-Key::Key(int midiNote, float x, float y, float width, float height, SDL_Color color)
+Key::Key(int midiNote, int x, int y, int width, int height, SDL_Color color)
     : midiNote(midiNote), x(x), y(y), width(width), height(height), color(color) {}
 
 void Key::Update() {

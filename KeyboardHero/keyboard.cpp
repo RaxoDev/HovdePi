@@ -5,7 +5,7 @@ inline bool Keyboard::isBlackKey(int key) const {
     return key % 12 == 1 || key % 12 == 3 || key % 12 == 6 || key % 12 == 8 || key % 12 == 10;
 }
 
-Keyboard::Keyboard(float screenWidth, float screenHeight)
+Keyboard::Keyboard(int screenWidth, int screenHeight)
     : width(screenWidth), height(width / 8), startKey(21), keyCount(88) {
     
     // Calculate the number of white keys
@@ -25,7 +25,7 @@ Keyboard::Keyboard(float screenWidth, float screenHeight)
 
     for (int i = startKey; i < startKey + keyCount; i++) {
         if (!isBlackKey(i)) {
-            whiteKeys.emplace(i, Key(i, x, y, whiteKeyWidth, height, {255, 255, 255, 255}));
+            whiteKeys.emplace(i, Key(i, (int)x, (int)y, (int)whiteKeyWidth, (int)height, {255, 255, 255, 255}));
             x += whiteKeyWidth;
         }
     }
@@ -37,7 +37,7 @@ Keyboard::Keyboard(float screenWidth, float screenHeight)
     const float blackKeyHeight = height * 0.6f;
     for (int i = startKey; i < startKey + keyCount; i++) {
         if (isBlackKey(i)) {
-            blackKeys.emplace(i, Key(i, x, y, blackKeyWidth, blackKeyHeight, {0, 0, 0, 255}));
+            blackKeys.emplace(i, Key(i, (int)x, (int)y, (int)blackKeyWidth, (int)blackKeyHeight, {0, 0, 0, 255}));
         } else {
             x += whiteKeyWidth;
         }

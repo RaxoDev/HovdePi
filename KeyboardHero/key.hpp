@@ -6,7 +6,7 @@
 class Key {
 public:
     Key();
-    Key(int midiNote, float x, float y, float width, float height, SDL_Color color);
+    Key(int midiNote, int x, int y, int width, int height, SDL_Color color);
     void Update();
     void Draw(SDL_Renderer* renderer) const;
     void SetColor(const SDL_Color &newColor); // Add this method
