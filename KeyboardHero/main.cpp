@@ -31,12 +31,12 @@ int main() {
         while (keyboardInput.hasEvents()) {
             MidiEvent midiEvent = keyboardInput.popEvent();
 
-            if (midiEvent.getType() == MidiEventType::NoteOn) {
+            if (midiEvent.getType() == MidiEventType::NOTE_ON) {
                 std::cout << "Note On: " << midiEvent.getMidiNote() << " \tVelocity: " << midiEvent.getVelocity() << std::endl;
-            } else if (midiEvent.getType() == MidiEventType::NoteOff) {
+            } else if (midiEvent.getType() == MidiEventType::NOTE_OFF) {
                 std::cout << "Note Off: " << midiEvent.getMidiNote() << std::endl;
             }
-            
+
             keyboard.Update(midiEvent);
         }
 
